@@ -24,14 +24,27 @@
         }
 
         function displayWordData(data) {
-            const meanings = data.meanings.map(meaning => 
-                `<h3>${meaning.partOfSpeech}</h3>
-                 <p><strong>Definition:</strong> ${meaning.definitions[0].definition}</p>
-                 ${meaning.synonyms.length ? `<p><strong>Synonyms:</strong> ${meaning.synonyms.join(', ')}</p>` : ''}
-                 ${meaning.antonyms.length ? `<p><strong>Antonyms:</strong> ${meaning.antonyms.join(', ')}</p>` : ''}`
-            ).join('');
+            const wordInfo = document.getElementById('word-info');
+            wordInfo.innerHTML = `<h2>${data.word}</h2>`;
 
-            document.getElementById('word-info').innerHTML = `<h2>${data.word}</h2>${meanings}`;
+            data.meanings.forEach(meaning => {
+                wordInfo.innerHTML += `<h3>${meaning.partOfSpeech}</h3>`;
+
+                meaning.definitions.forEach(definition => {
+                    const synonyms = definition.synonyms && definition.synonyms.length > 0 
+                        ? definition.synonyms.join(', ') 
+                        : 'None';
+                    const antonyms = definition.antonyms && definition.antonyms.length > 0 
+                        ? definition.antonyms.join(', ') 
+                        : 'None';
+
+                    wordInfo.innerHTML += `
+                        <p><strong>Definition:</strong> ${definition.definition}</p>
+                        <p><strong>Synonyms:</strong> ${synonyms}</p>
+                        <p><strong>Antonyms:</strong> ${antonyms}</p>
+                    `;
+                });
+            });
         }
 
         function getWordFromURL() {
@@ -45,5 +58,5 @@
         }
     </script>
 </body>
-</html>
-  
+    </html>
+    
