@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Dictionary Lookup</h1>
-    <p id="word-info">Enter a word in the URL to see its meaning, synonyms, and antonyms.</p>
+    <p id="word-info">Enter a word in the URL to see its meaning. example:https://sticklabs.github.io/dictionary/?w=cob</p>
 
     <script>
         async function fetchWordData(word) {
@@ -26,24 +26,17 @@
         function displayWordData(data) {
             const wordInfo = document.getElementById('word-info');
             wordInfo.innerHTML = `<h2>${data.word}</h2>`;
-
+            
             data.meanings.forEach(meaning => {
-                wordInfo.innerHTML += `<h3>${meaning.partOfSpeech}</h3>`;
-
-                meaning.definitions.forEach(definition => {
-                    const synonyms = definition.synonyms && definition.synonyms.length > 0 
-                        ? definition.synonyms.join(', ') 
-                        : 'None';
-                    const antonyms = definition.antonyms && definition.antonyms.length > 0 
-                        ? definition.antonyms.join(', ') 
-                        : 'None';
-
-                    wordInfo.innerHTML += `
-                        <p><strong>Definition:</strong> ${definition.definition}</p>
-                        <p><strong>Synonyms:</strong> ${synonyms}</p>
-                        <p><strong>Antonyms:</strong> ${antonyms}</p>
-                    `;
-                });
+                const synonyms = meaning.synonyms && meaning.synonyms.length > 0 ? meaning.synonyms.join(', ') : 'None';
+                const antonyms = meaning.antonyms && meaning.antonyms.length > 0 ? meaning.antonyms.join(', ') : 'None';
+                
+                wordInfo.innerHTML += `
+                    <h3>${meaning.partOfSpeech}</h3>
+                    <p><strong>Definition:</strong> ${meaning.definitions[0].definition}</p>
+                    <p><strong>Synonyms:</strong> ${synonyms}</p>
+                    <p><strong>Antonyms:</strong> ${antonyms}</p>
+                `;
             });
         }
 
@@ -58,5 +51,4 @@
         }
     </script>
 </body>
-    </html>
-    
+</html>
